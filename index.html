@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilotage Hypermarché</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Noto+Kufi+Arabic:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/components.css">
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="login-screen" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: #0f172a;">
+    <div class="card" style="width: 100%; max-width: 400px; padding: 40px;">
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-bottom: 20px;">
+        <button data-lang="fr" onclick="window.setLang('fr')" style="padding:5px 10px; border:none; border-radius:5px; cursor:pointer;">FR</button>
+        <button data-lang="ar" onclick="window.setLang('ar')" style="padding:5px 10px; border:none; border-radius:5px; cursor:pointer;">ع</button>
+      </div>
+      <h1 id="login-title" style="text-align:center; margin-bottom: 5px;">Pilotage</h1>
+      <p id="login-subtitle" style="text-align:center; color: #64748b; margin-bottom: 30px;">Système de gestion</p>
+      
+      <div style="margin-bottom: 15px;">
+        <label style="display:block; font-size:11px; font-weight:bold; color:#64748b; margin-bottom:5px;">UTILISATEUR</label>
+        <input type="text" id="login-user" value="admin" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:8px;">
+      </div>
+      <div style="margin-bottom: 15px;">
+        <label style="display:block; font-size:11px; font-weight:bold; color:#64748b; margin-bottom:5px;">MOT DE PASSE</label>
+        <input type="password" id="login-pw" value="1234" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:8px;">
+      </div>
+      <button id="btn-login" style="width:100%; padding:14px; background:#e11d48; color:white; border:none; border-radius:8px; font-size:16px; font-weight:bold; cursor:pointer; margin-top:10px;">Connexion</button>
+      <div id="app-hint" style="text-align:center; font-size:12px; color:#64748b; margin-top:15px;">Chargement...</div>
+    </div>
+  </div>
+
+  <!-- APP SHELL -->
+  <div id="app" class="hidden">
+    <aside id="sidebar">
+      <div class="sidebar-brand">
+        <span style="font-size:24px;">🏬</span>
+        <h2 id="sb-name">Hypermarché</h2>
+      </div>
+      <nav class="sidebar-nav" id="sidebar-nav">
+        <!-- Rempli par JS -->
+      </nav>
+      <div class="sidebar-user">
+        <div class="user-avatar" id="sb-avatar">D</div>
+        <div class="user-info-mini">
+          <div id="sb-uname" style="font-weight:bold;">Directeur</div>
+          <div id="sb-urole" style="color:#94a3b8; font-size:10px;">Admin</div>
+        </div>
+        <button class="logout-btn" onclick="window.logout()" title="Déconnexion">⏻</button>
+      </div>
+    </aside>
+    <main id="main">
+      <header id="topbar">
+        <h1 id="tb-title">Tableau de bord</h1>
+     <button id="lang-toggle" onclick="window.toggleLang()" style="padding: 8px 16px; border-radius: 8px; border: 1px solid #cbd5e1; background: white; font-weight: bold; cursor: pointer; margin-right: 15px;">عربي</button>
+      </header>
+      <div id="view-container">
+        <!-- Rempli par JS -->
+      </div>
+    </main>
+  </div>
+
+  
+
+<script type="module" src="./js/app.js?v=3"></script>
+</body>
+</html>

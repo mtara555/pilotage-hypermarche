@@ -1,0 +1,135 @@
+/* --- KPI & Cartes --- */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.card { background: var(--surface); border-radius: 12px; padding: 20px; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+.kpi-title { font-size: 12px; color: var(--text-2); font-weight: 600; text-transform: uppercase; margin-bottom: 10px; }
+.kpi-value { font-size: 28px; font-weight: 900; color: var(--text); }
+.kpi-sub { font-size: 12px; margin-top: 5px; font-weight: 600; }
+
+/* --- Tâches --- */
+.role-selector { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; }
+.role-btn { 
+  padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--surface); cursor: pointer; font-weight: 700; font-size: 13px;
+  white-space: nowrap; transition: 0.2s; display: flex; align-items: center; gap: 8px;
+}
+.role-btn.active { border-color: var(--accent); background: #fff1f2; color: var(--accent); box-shadow: 0 2px 8px rgba(225, 29, 72, 0.15); }
+
+.task-list { display: flex; flex-direction: column; gap: 8px; margin-top: 15px; }
+.task-item { 
+  display: flex; align-items: center; gap: 15px; padding: 16px 20px; 
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  cursor: pointer; transition: 0.2s; user-select: none;
+}
+.task-item:hover { border-color: #cbd5e1; }
+.task-item.done { background: #f8fafc; opacity: 0.7; }
+.task-check {
+  width: 24px; height: 24px; border-radius: 6px; border: 2px solid #cbd5e1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: transparent; transition: 0.2s; flex-shrink: 0;
+}
+.task-item.done .task-check { background: #10b981; border-color: #10b981; color: white; }
+.task-content { flex: 1; }
+.task-title { font-weight: 700; font-size: 14px; }
+.task-item.done .task-title { text-decoration: line-through; color: #94a3b8; }
+.task-note { font-size: 12px; color: #64748b; margin-top: 4px; }
+.task-badge { padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; }
+.badge-Q { background: #fee2e2; color: #dc2626; }
+.badge-H { background: #fef3c7; color: #d97706; }
+.badge-M { background: #d1fae5; color: #059669; }
+
+/* --- Résultats --- */
+.res-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.res-periods { display: flex; gap: 8px; background: #e2e8f0; padding: 4px; border-radius: 10px; }
+.res-period-btn { padding: 8px 16px; border-radius: 8px; border: none; font-weight: 700; font-size: 13px; cursor: pointer; background: transparent; color: #64748b; transition: 0.2s; }
+.res-period-btn.active { background: white; color: #0f172a; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.res-bar-wrap { background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 8px; }
+.res-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+
+/* --- Styles pour l'impression / PDF --- */
+@media print {
+  body { background: white !important; overflow: visible !important; height: auto !important; }
+  #sidebar, #topbar, .no-print { display: none !important; }
+  #app { display: block !important; height: auto !important; }
+  #main { overflow: visible !important; }
+  #view-container { padding: 0 !important; overflow: visible !important; }
+  .card { border: none !important; box-shadow: none !important; padding: 0 !important; }
+  .print-header { display: block !important; text-align: center; margin-bottom: 30px; border-bottom: 2px solid #0f172a; padding-bottom: 20px; }
+  .print-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+  .print-table th, .print-table td { border: 1px solid #cbd5e1; padding: 8px 12px; text-align: left; font-size: 13px; }
+  .print-table th { background: #f1f5f9; font-weight: bold; }
+  .print-check { font-family: monospace; font-size: 16px; }
+}
+/* Styles pour l'écran */
+.print-header { display: none; }
+.report-doc { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }
+.report-title { font-size: 24px; font-weight: 900; margin-bottom: 5px; }
+.report-meta { color: #64748b; font-size: 14px; margin-bottom: 30px; }
+.report-section-title { font-size: 18px; font-weight: 800; margin: 25px 0 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }
+
+/* --- Correction de l'impression PDF --- */
+@media print {
+  .no-print { display: none !important; }
+  .report-doc { box-shadow: none !important; border: none !important; padding: 0 !important; }
+  
+  /* Cacher les titres de l'écran pour ne garder que l'en-tête d'impression */
+  .report-title, .report-meta { display: none !important; }
+  .print-header { display: block !important; text-align: center; margin-bottom: 30px; }
+  
+  /* Forcer l'affichage du tableau */
+  table { display: table !important; width: 100% !important; border-collapse: collapse !important; margin-top: 20px; }
+  thead { display: table-header-group !important; }
+  tbody { display: table-row-group !important; }
+  tr { display: table-row !important; page-break-inside: avoid; }
+  th, td { 
+    display: table-cell !important; 
+    border: 1px solid #000 !important; 
+    padding: 8px 12px !important; 
+    text-align: right !important; /* Pour l'arabe */
+  }
+  th { background-color: #f2f2f2 !important; font-weight: bold; }
+}
+
+/* --- CORRECTION COMPLETE DES TABLEAUX (ÉCRAN ET PDF) --- */
+.print-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background: white;
+}
+.print-table th,
+.print-table td {
+  border: 1px solid #cbd5e1;
+  padding: 12px 15px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.print-table th {
+  background-color: #f8fafc;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* Alignement selon la langue */
+[dir="rtl"] .print-table th, [dir="rtl"] .print-table td { text-align: right; }
+[dir="ltr"] .print-table th, [dir="ltr"] .print-table td { text-align: left; }
+.print-table .text-center { text-align: center !important; }
+
+/* Styles spécifiques à l'impression PDF */
+@media print {
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: white !important; }
+  .no-print { display: none !important; }
+  .report-doc { box-shadow: none !important; border: none !important; padding: 0 !important; max-width: 100% !important; }
+  .report-title, .report-meta { display: none !important; }
+  .print-header { display: block !important; text-align: center; margin-bottom: 30px; border-bottom: 2px solid #000; padding-bottom: 15px; }
+  
+  table { display: table !important; width: 100% !important; border-collapse: collapse !important; }
+  thead { display: table-header-group !important; }
+  tbody { display: table-row-group !important; }
+  tr { display: table-row !important; page-break-inside: avoid; }
+  th, td { 
+    display: table-cell !important; 
+    border: 1px solid #000 !important; 
+    padding: 8px !important; 
+  }
+  th { background-color: #f2f2f2 !important; }
+}
