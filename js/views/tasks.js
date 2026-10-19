@@ -9,7 +9,16 @@ export const TasksView = {
     const container = document.getElementById('view-container');
     
     // Traduction des noms de rôles
-    const roleSelector = ROLES.map(r => {
+    const accessibleRoles = State.user.systemRole === 'directeur' 
+      ? ROLES 
+      : ROLES.filter(r => r.id === State.user.assignedRoleId);
+    
+    // Si l'utilisateur n'est pas directeur, on force son rôle
+    if (State.user.systemRole !== 'directeur' && State.user.assignedRoleId) {
+      this.currentRoleId = State.user.assignedRoleId;
+    }
+
+    const roleSelector = accessibleRoles.map(r => {
       const roleLabel = I18n.lang === 'ar' ? r.label.ar : r.label.fr;
       return `
         <button class="role-btn ${r.id === this.currentRoleId ? 'active' : ''}" onclick="window.selectRole('${r.id}')">
@@ -18,7 +27,7 @@ export const TasksView = {
       `;
     }).join('');
 
-    const role = ROLES.find(r => r.id === this.currentRoleId);
+    const role = accessibleRoles.find(r => r.id === this.currentRoleId);
     
     // Fusionner les tâches de base et les tâches personnalisées
     const allTasks = role ? State.getTasks(role.id, role.tasks || []) : [];

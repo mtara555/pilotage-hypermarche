@@ -65,6 +65,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.setRepPeriod = (period) => { ReportsView.setPeriod(period); };
 
+  window.createUser = () => {
+    const name = document.getElementById('new-user-name').value.trim();
+    const username = document.getElementById('new-user-username').value.trim();
+    const password = document.getElementById('new-user-pw').value;
+    const roleId = document.getElementById('new-user-role').value;
+
+    if (!name || !username || !password) {
+      alert(I18n.lang === 'ar' ? 'يرجى ملء جميع الحقول.' : 'Veuillez remplir tous les champs.');
+      return;
+    }
+    if (State.users.find(u => u.username === username)) {
+      alert(I18n.lang === 'ar' ? 'اسم المستخدم موجود بالفعل.' : 'Cet identifiant existe déjà.');
+      return;
+    }
+
+    State.addUser({
+      id: 'u_' + Date.now(),
+      name: name,
+      username: username,
+      password: password,
+      systemRole: 'chef',
+      assignedRoleId: roleId
+    });
+
+    alert(I18n.lang === 'ar' ? 'تم إنشاء المستخدم بنجاح!' : 'Utilisateur créé avec succès !');
+    SettingsView.render(); // Rafraîchit la liste
+  };
+
+  window.deleteUser = (id) => {
+    if (confirm(I18n.lang === 'ar' ? 'حذف هذا المستخدم؟' : 'Supprimer cet utilisateur ?')) {
+      State.deleteUser(id);
+      SettingsView.render();
+    }
+  };
+
   window.saveSettings = () => {
     const newName = document.getElementById('input-company-name').value.trim();
     if (newName) {

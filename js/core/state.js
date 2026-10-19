@@ -15,13 +15,28 @@ export const State = {
     this.customTasks = Store.get('hm_custom_tasks', {});
     this.company = Store.get('hm_company', { nom: 'Hypermarché' });
 
+    // Création de l'admin par défaut si aucun utilisateur n'existe
     if (this.users.length === 0) {
       this.users.push({
-        id: 'admin1', name: 'Directeur', username: 'admin',
-        password: '1234', role: 'directeur'
+        id: 'u1', name: 'Directeur', username: 'admin', password: '1234', 
+        systemRole: 'directeur', assignedRoleId: null
       });
-      Store.set('hm_users', this.users);
+      this.saveUsers();
     }
+  },
+
+  saveUsers() {
+    Store.set('hm_users', this.users);
+  },
+
+  addUser(user) {
+    this.users.push(user);
+    this.saveUsers();
+  },
+
+  deleteUser(id) {
+    this.users = this.users.filter(u => u.id !== id);
+    this.saveUsers();
   },
 
   updateCompany(name) {
@@ -41,19 +56,15 @@ export const State = {
 
   toggleCompletion(roleId, taskId, freq, periodKey) {
     const key = roleId + '::' + taskId + '::' + periodKey;
-    if (this.completions[key]) {
-      delete this.completions[key];
-    } else {
-      this.completions[key] = true;
-    }
+    if (this.completions[key]) delete this.completions[key];
+    else this.completions[key] = true;
     this.saveCompletions();
     return !!this.completions[key];
   },
 
-  addCustomTask(roleId, task) {
-    if (!this.customTasks[roleId]) this.customTasks[roleId] = [];
-    this.customTasks[roleId].push(task);
-    Store.set('hm_custom_tasks', this.customTasks);
+  isCompleted(roleId, taskId, freq, periodKey) {
+    const key = roleId + '::' + taskId + '::' + periodKey;
+    return !!this.completions[key];
   },
 
   getTasks(roleId, baseTasks) {
@@ -61,8 +72,9 @@ export const State = {
     return [...baseTasks, ...custom];
   },
 
-  isCompleted(roleId, taskId, freq, periodKey) {
-    const key = roleId + '::' + taskId + '::' + periodKey;
-    return !!this.completions[key];
+  addCustomTask(roleId, task) {
+    if (!this.customTasks[roleId]) this.customTasks[roleId] = [];
+    this.customTasks[roleId].push(task);
+    Store.set('hm_custom_tasks', this.customTasks);
   }
 };
